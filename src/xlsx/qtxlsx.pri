@@ -7,6 +7,8 @@ QT += core gui gui-private
 HEADERS += $$PWD/xlsxdocpropscore_p.h \
     $$PWD/xlsxdocpropsapp_p.h \
     $$PWD/xlsxrelationships_p.h \
+    $$PWD/xlsxsheetprotection.h \
+    $$PWD/xlsxsheetprotection_p.h \
     $$PWD/xlsxutility_p.h \
     $$PWD/xlsxsharedstrings_p.h \
     $$PWD/xlsxcontenttypes_p.h \
@@ -53,6 +55,7 @@ HEADERS += $$PWD/xlsxdocpropscore_p.h \
 SOURCES += $$PWD/xlsxdocpropscore.cpp \
     $$PWD/xlsxdocpropsapp.cpp \
     $$PWD/xlsxrelationships.cpp \
+    $$PWD/xlsxsheetprotection.cpp \
     $$PWD/xlsxutility.cpp \
     $$PWD/xlsxsharedstrings.cpp \
     $$PWD/xlsxcontenttypes.cpp \

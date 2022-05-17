@@ -1269,6 +1269,9 @@ void Worksheet::saveToXmlFile(QIODevice *device) const
         d->saveXmlSheetData(writer);
     writer.writeEndElement(); // sheetData
 
+    if (d->sheetProtection.enabled())
+        d->saveXmlSheetProtection(writer); // sheetProtection
+
     d->saveXmlMergeCells(writer);
     foreach (const ConditionalFormatting cf, d->conditionalFormattingList)
         cf.saveToXml(writer);
@@ -1483,6 +1486,13 @@ void WorksheetPrivate::saveXmlHyperlinks(QXmlStreamWriter &writer) const
     }
 
     writer.writeEndElement(); // hyperlinks
+}
+
+void WorksheetPrivate::saveXmlSheetProtection(QXmlStreamWriter &writer) const
+{
+    writer.writeStartElement(QStringLiteral("SheetProtection"));
+    sheetProtection.saveToXml(writer);
+    writer.writeEndElement(); // sheetProtection
 }
 
 void WorksheetPrivate::saveXmlDrawings(QXmlStreamWriter &writer) const
@@ -1763,6 +1773,29 @@ bool Worksheet::setRowHidden(int rowFirst, int rowLast, bool hidden)
 
     return rowInfoList.count() > 0;
 }
+
+/*!
+  Sets the \a sheetprotection property.
+
+  Returns always true.
+*/
+bool Worksheet::setSheetProtection(const SheetProtection &sheetprotection)
+{
+    Q_D(Worksheet);
+    d->sheetProtection = sheetprotection;
+
+    return true;
+}
+
+/*!
+  Returns the \a sheetprotection property.
+*/
+SheetProtection Worksheet::getSheetProtection()
+{
+    Q_D(Worksheet);
+    return d->sheetProtection;
+}
+
 
 /*!
  Returns height of \a row in points.
@@ -2163,6 +2196,12 @@ void WorksheetPrivate::loadXmlMergeCells(QXmlStreamReader &reader)
         qDebug("read merge cells error");
 }
 
+void WorksheetPrivate::loadXmlSheetProtection(QXmlStreamReader &reader)
+{
+    Q_ASSERT(reader.name() == QLatin1String("sheetProtection"));
+    sheetProtection = SheetProtection::loadFromXml(reader);
+}
+
 void WorksheetPrivate::loadXmlDataValidations(QXmlStreamReader &reader)
 {
     Q_ASSERT(reader.name() == QLatin1String("dataValidations"));
@@ -2352,6 +2391,8 @@ bool Worksheet::loadFromXmlFile(QIODevice *device)
                 d->loadXmlSheetData(reader);
             } else if (reader.name() == QLatin1String("mergeCells")) {
                 d->loadXmlMergeCells(reader);
+            } else if (reader.name() == QLatin1String("sheetProtection")) {
+                d->loadXmlSheetProtection(reader);
             } else if (reader.name() == QLatin1String("dataValidations")) {
                 d->loadXmlDataValidations(reader);
             } else if (reader.name() == QLatin1String("conditionalFormatting")) {

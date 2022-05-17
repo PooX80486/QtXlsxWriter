@@ -39,6 +39,7 @@
 #include "xlsxworksheet.h"
 #include "xlsxabstractsheet_p.h"
 #include "xlsxcell.h"
+#include "xlsxsheetprotection.h"
 #include "xlsxdatavalidation.h"
 #include "xlsxconditionalformatting.h"
 #include "xlsxcellformula.h"
@@ -173,6 +174,7 @@ public:
     void saveXmlMergeCells(QXmlStreamWriter &writer) const;
     void saveXmlHyperlinks(QXmlStreamWriter &writer) const;
     void saveXmlDrawings(QXmlStreamWriter &writer) const;
+    void saveXmlSheetProtection(QXmlStreamWriter &writer) const;
     void saveXmlDataValidations(QXmlStreamWriter &writer) const;
     int rowPixelsSize(int row) const;
     int colPixelsSize(int col) const;
@@ -180,6 +182,7 @@ public:
     void loadXmlSheetData(QXmlStreamReader &reader);
     void loadXmlColumnsInfo(QXmlStreamReader &reader);
     void loadXmlMergeCells(QXmlStreamReader &reader);
+    void loadXmlSheetProtection(QXmlStreamReader &reader);
     void loadXmlDataValidations(QXmlStreamReader &reader);
     void loadXmlSheetFormatProps(QXmlStreamReader &reader);
     void loadXmlSheetViews(QXmlStreamReader &reader);
@@ -199,6 +202,8 @@ public:
     QMap<int, QSharedPointer<XlsxRowInfo>> rowsInfo;
     QMap<int, QSharedPointer<XlsxColumnInfo>> colsInfo;
     QMap<int, QSharedPointer<XlsxColumnInfo>> colsInfoHelper;
+
+    SheetProtection sheetProtection;
 
     QList<DataValidation> dataValidationsList;
     QList<ConditionalFormatting> conditionalFormattingList;

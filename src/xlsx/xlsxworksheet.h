@@ -50,6 +50,7 @@ class ConditionalFormatting;
 class CellRange;
 class RichString;
 class Relationships;
+class SheetProtection;
 class Chart;
 
 class WorksheetPrivate;
@@ -122,6 +123,9 @@ public:
     bool setRowHeight(int rowFirst, int rowLast, double height);
     bool setRowFormat(int rowFirst, int rowLast, const Format &format);
     bool setRowHidden(int rowFirst, int rowLast, bool hidden);
+
+    bool setSheetProtection(const SheetProtection &sheetprotection);
+    SheetProtection getSheetProtection();
 
     double rowHeight(int row);
     Format rowFormat(int row);
